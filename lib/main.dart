@@ -3,6 +3,7 @@ import 'dart:math';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import "package:url_launcher/url_launcher.dart";
+import "package:lottie/lottie.dart";
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +16,40 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const MouseSplashScreen(),
+      home: const SplashScreen(),
+    );
+  }
+}
+
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  void navitoHome() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => MouseSplashScreen()),
+    );
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Future.delayed(Duration(seconds: 2), () {
+      navitoHome();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: Center(child: SizedBox(height: 160,width: 160,child: Lottie.asset("assets/ani2.json"))),
     );
   }
 }
@@ -68,7 +102,7 @@ class _MouseSplashScreenState extends State<MouseSplashScreen> {
         child: Center(
           child: InkWell(
             onTap: () async {
-              final Uri url = Uri.parse("https://github.com/Praveen0586");
+              final Uri url = Uri.parse("https://github.com/Praveen0586/mousecurser");
               if (await canLaunchUrl(url)) {
                 await launchUrl(url, mode: LaunchMode.externalApplication);
               } else {
@@ -134,10 +168,12 @@ class _MouseSplashScreenState extends State<MouseSplashScreen> {
 
             Positioned.fill(
               child: Container(
-                child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       "Move Your Cursor",
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         //decoration: TextDecoration.underline,
                         color: Colors.grey,

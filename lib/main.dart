@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'dart:math';
 import 'dart:async';
 import 'package:flutter/material.dart';
+import "package:url_launcher/url_launcher.dart";
 
 void main() {
   runApp(const MyApp());
@@ -62,6 +63,59 @@ class _MouseSplashScreenState extends State<MouseSplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(50),
+        child: Center(
+          child: InkWell(
+            onTap: () async {
+              final Uri url = Uri.parse("https://github.com/Praveen0586");
+              if (await canLaunchUrl(url)) {
+                await launchUrl(url, mode: LaunchMode.externalApplication);
+              } else {
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text("Could not launch URL")));
+              }
+            },
+            child: Container(
+              // margin: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+              // decoration: BoxDecoration(
+              //   borderRadius: BorderRadius.circular(14),
+              //   border: Border.all(color: Colors.white, width: 0.7),
+              // ),
+              height: 40,
+              width: 130,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    height: 25,
+                    width: 30, // Ensure the image has a proper width
+                    decoration: BoxDecoration(
+                      // color: Colors.red,
+                      image: DecorationImage(
+                        image: AssetImage(
+                          "assets/gimage.png",
+                        ), // Corrected path
+                        fit: BoxFit.cover, // Ensures image fits properly
+                      ),
+                    ),
+                  ),
+                  Text(
+                    "Praveen0586",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w200,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+
       backgroundColor: Colors.black,
       body: MouseRegion(
         onHover: (event) => _updateSplash(event.position),
@@ -75,6 +129,24 @@ class _MouseSplashScreenState extends State<MouseSplashScreen> {
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 150, sigmaY: 150),
                 child: Container(color: Colors.transparent),
+              ),
+            ),
+
+            Positioned.fill(
+              child: Container(
+                child: Column(mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Move Your Cursor",
+                      style: TextStyle(
+                        //decoration: TextDecoration.underline,
+                        color: Colors.grey,
+                        fontSize: 50,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
